@@ -32,12 +32,12 @@ let navbar =  {
 			</div>
 		</nav>
 	`,
-	controller: function ($rootScope){
+	controller: ['$rootScope',function ($rootScope){
 		var $ctrl = this;
 		$rootScope.$on('update', function(){
 			$ctrl.member = $rootScope.member;
 		})
-	}
+	}]
 }
 	
 export {

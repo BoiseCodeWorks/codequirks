@@ -55,7 +55,7 @@ let aboutMe = {
 	</div>
 </div>
 	`,
-	controller: function ($rootScope, User) {
+	controller: ['$rootScope', 'User', function ($rootScope, User) {
 		var $ctrl = this;
 		function setAuthor(){
 			if(USER_ID){
@@ -83,7 +83,7 @@ let aboutMe = {
 			$ctrl.edit = false;
 		}
 
-	}
+	}]
 }
 
 let featuredPosts = {
@@ -105,19 +105,18 @@ let featuredPosts = {
 			</div>
 		</div>
 	`,
-	controller: function (Post) {
+	controller: ['Post', function (Post) {
 		let $ctrl = this;
 		this.$onInit = function() {
 			if(USER_ID){
 				Post.findAll({authorId: USER_ID }).then(posts => { $ctrl.posts = posts.filter(p => p.featured) })
 			}
 		};
-	}
+	}]
 }
 
 
 let socialSide = {
-	restrict: 'E',
 	template: `
 		<div class="sidebar-widget">
 			<h3 class="sidebar-title">Socials</h3>

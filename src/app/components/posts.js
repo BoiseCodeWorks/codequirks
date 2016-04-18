@@ -22,7 +22,7 @@ let postsList = {
 					</article>
 				</div>
 		`,
-		controller: function(Post) {
+		controller: ['Post', function(Post) {
 			var $ctrl = this;
 
 		this.$onInit = function() {
@@ -31,7 +31,7 @@ let postsList = {
 			}
 		};
 	
-		},
+		}],
 		controllerAs: 'p'
 }
 
@@ -65,7 +65,7 @@ let postsModule = angular.module('posts', [])
 				</div>
 			</article>
 		`,
-		controller: function(Post) {
+		controller: ['Post', function(Post) {
 			let $ctrl = this
 			this.$routerOnActivate = function(next) {
 				var id = '/'+next.params.id;
@@ -76,7 +76,7 @@ let postsModule = angular.module('posts', [])
 				}
 				window.scroll ? window.scroll(0,0) : '';
 			};
-		},
+		}],
 		bindings: {
 			id: '<'
 		}

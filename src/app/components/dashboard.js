@@ -12,7 +12,7 @@ let dashboard = {
 }
 
 let postsManager = {
-	controller: function(Post, $rootScope) {
+	controller: ['Post', '$rootScope', function(Post, $rootScope) {
 		var $ctrl = this;
 
 		this.$onInit = function() {
@@ -36,7 +36,7 @@ let postsManager = {
 				post.DSDestroy();
 			}
 		}
-	},
+	}],
 	template: `
 <div class="col-sm-12  panel panel-default">
 	<div>
@@ -143,7 +143,7 @@ let editPost = {
 	</div>
 </div>
 	`,
-	controller: function($rootScope, Post, $showdown) {
+	controller: ['$rootScope', 'Post', function($rootScope, Post) {
 		var $ctrl = this;
 		$ctrl.view = 'edit';
 		this.$routerOnActivate = function(next) {
@@ -170,7 +170,7 @@ let editPost = {
 			}
 			Post.save($ctrl.post, { upsert: true });
 		}
-	},
+	}],
 	bindings: { $router: '<' },
 
 }

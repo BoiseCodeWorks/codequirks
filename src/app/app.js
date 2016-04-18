@@ -23,8 +23,8 @@ import './app.styles.js';
 
 angular.module(MODULE_NAME, [
 	'ngComponentRouter',
-	 ngSanitize,
-	 jsDataAngular,
+	'ngSanitize',
+	'js-data',
 	'ng-showdown',
 	'posts',
 	'sidebarModule',
@@ -45,13 +45,13 @@ angular.module(MODULE_NAME, [
 			{ path: '/...', name: 'TwoCol', component: 'twoCol', useAsDefault: true },
 			{ path: '/dashboard/...', name: 'Dashboard', component: 'dashboard' },
     ],
-		controller: function($scope, $showdown) {
+		controller: ['$scope', '$showdown', function($scope, $showdown) {
 			var $ctrl = this;
 			$ctrl.test = '##ello'
 			this.convert = function(){
 				$ctrl.out = $showdown.makeHtml($ctrl.test);
 			}
-		}
+		}]
 	})
 	.component('twoCol', {
 		template: `

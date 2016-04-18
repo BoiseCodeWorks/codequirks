@@ -42,6 +42,9 @@ let dataModels = angular.module('dataModels', ['js-data'])
 	.factory('Post', Posts)
 .factory('Tag', Tags)
 
+Posts.$inject = ['DS', '$rootScope'];
+Tags.$inject = ['DS'];
+
 export {
 dataModels
 }

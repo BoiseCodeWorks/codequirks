@@ -40,6 +40,9 @@ let run = (DS, DSFirebaseAdapter) => {
 		});
 }
 
+config.$inject = ['$locationProvider', 'DSFirebaseAdapterProvider', '$showdownProvider'];
+run.$inject = ['DS', 'DSFirebaseAdapter'];
+
 export {
 	config,
 	run

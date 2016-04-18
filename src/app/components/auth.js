@@ -151,6 +151,9 @@ let AuthService = function($rootScope, DSFirebaseAdapter, User) {
 	}
 }
 
+AuthService.$inject = ['$rootScope', 'DSFirebaseAdapter', 'User']
+firebaseAuth.$inject = ['$rootScope', '$scope', 'AuthService']
+User.$inject = ['DS']
 
 export {
 AuthService,

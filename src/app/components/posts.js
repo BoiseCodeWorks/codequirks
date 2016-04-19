@@ -1,7 +1,7 @@
 import {USER_ID} from '../app.constants.js'
 
 let postsList = {
-		template: `
+    template: `
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2">
 					<article class="blog-post" ng-repeat="post in p.posts | filter: {hide: false}">
@@ -22,34 +22,34 @@ let postsList = {
 					</article>
 				</div>
 		`,
-		controller: ['Post', function(Post) {
-			var $ctrl = this;
+    controller: ['Post', function(Post) {
+        var $ctrl = this;
 
-		this.$onInit = function() {
-			if(USER_ID){
-				Post.findAll({authorId: USER_ID }).then(posts => { $ctrl.posts = posts })
-			}
-		};
-	
-		}],
-		controllerAs: 'p'
+        this.$onInit = function() {
+            if (USER_ID) {
+                Post.findAll({ authorId: USER_ID }).then(posts => { $ctrl.posts = posts })
+            }
+        };
+
+    }],
+    controllerAs: 'p'
 }
 
 let posts = {
-	template: `
+    template: `
 		<ng-outlet></ng-outlet>
 	`,
-	$routeConfig: [
-      {path: '/',    name: 'PostsList',   component: 'postsList', useAsDefault: true},
-      {path: ':id', name: 'PostDetail', component: 'postDetail'}
+    $routeConfig: [
+        { path: '/', name: 'PostsList', component: 'postsList', useAsDefault: true },
+        { path: ':id', name: 'PostDetail', component: 'postDetail' }
     ]
 }
 
 let postsModule = angular.module('posts', [])
-	.component('posts', posts)
-	.component('postsList', postsList)
-	.component('postDetail', {
-		template: `
+    .component('posts', posts)
+    .component('postsList', postsList)
+    .component('postDetail', {
+        template: `
 			<article class="blog-post">
 				<div class="blog-post-image text-center">
 					<img ng-src="{{$ctrl.post.imgUrl}}" alt="{{$ctrl.post.title}}">
@@ -65,23 +65,23 @@ let postsModule = angular.module('posts', [])
 				</div>
 			</article>
 		`,
-		controller: ['Post', function(Post) {
-			let $ctrl = this
-			this.$routerOnActivate = function(next) {
-				var id = '/'+next.params.id;
-				if (id) {
-					Post.find(id).then(post => { $ctrl.post = post });
-				} else {
-					$ctrl.post = { title: '', body: '', meta: '' }
-				}
-				window.scroll ? window.scroll(0,0) : '';
-			};
-		}],
-		bindings: {
-			id: '<'
-		}
-	})
-	
+        controller: ['Post', function(Post) {
+            let $ctrl = this
+            this.$routerOnActivate = function(next) {
+                var id = '/' + next.params.id;
+                if (id) {
+                    Post.find(id).then(post => { $ctrl.post = post });
+                } else {
+                    $ctrl.post = { title: '', body: '', meta: '' }
+                }
+                window.scroll ? window.scroll(0, 0) : '';
+            };
+        }],
+        bindings: {
+            id: '<'
+        }
+    })
+
 export {
 postsModule
 }

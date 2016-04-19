@@ -1,6 +1,5 @@
 import angular from 'angular'
 import ngComponentRouter from '@angular/router/angular1/angular_1_router.js'
-import Firebase from 'firebase'
 import jsDataAngular from 'js-data-angular'
 import ngSanitize from 'angular-sanitize'
 

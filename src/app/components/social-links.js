@@ -28,7 +28,7 @@ let socialLinks = {
 			type: 'dribble',
 			url: ''
 		},{
-			type: 'inkedin',
+			type: 'linkedin',
 			url: ''
 		},{
 			type: 'reddit',
@@ -45,7 +45,10 @@ let socialLinks = {
 		},{
 			type: 'pinterest',
 			url: ''
-		}]
+		},{
+            type: 'lastfm',
+            url: ''
+        }]
 	},
 	controllerAs: 'sl'
 }

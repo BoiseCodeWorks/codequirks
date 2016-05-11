@@ -4,9 +4,9 @@ let postsList = {
 		template: `
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2">
-					<article class="blog-post" ng-repeat="post in p.posts | filter: {hide: false}">
+					<article class="blog-post" ng-repeat="post in p.posts | filter: {hide: false} | orderBy: 'created':true">
 						<div class="blog-post-image">
-							<a ng-link="[\'PostDetail'\, {id: post.id.substr(1)}]"><img class="img-responsive" src="{{post.imgUrl}}" alt="{{post.title}}"></a>
+							<a ng-link="[\'PostDetail'\, {id: post.id.substr(1)}]"><img class="img-responsive" ng-src="{{post.imgUrl}}" alt="{{post.title}}"></a>
 						</div>
 						<div class="blog-post-body">
 							<h2><a ng-link="[\'PostDetail'\, {id: post.id.substr(1)}]">{{post.title}}</a></h2>
@@ -26,9 +26,7 @@ let postsList = {
 			var $ctrl = this;
 
 		this.$onInit = function() {
-			if(USER_ID){
-				Post.findAll({authorId: USER_ID }).then(posts => { $ctrl.posts = posts })
-			}
+				Post.findAll().then(posts => { $ctrl.posts = posts; window.posts = posts })
 		};
 	
 		}],
@@ -64,13 +62,26 @@ let postsModule = angular.module('posts', [])
 					<div class="blog-post-text" markdown-to-html="$ctrl.post.body"></div>
 				</div>
 			</article>
+			<div class="well">
+				<h5 class="text-muted">Posted by:</h5>
+				<div class="media">
+					<img ng-src="{{$ctrl.author.imgUrl}}" class="img-circle pull-left" width="120">
+					<div class="media-heading">
+						<h3>{{$ctrl.author.name}}</h3>
+						<p>{{$ctrl.author.bio}}</p>
+					</div>
+				</div>
+			</div>
 		`,
-		controller: ['Post', function(Post) {
+		controller: ['Post', 'User', function(Post, User) {
 			let $ctrl = this
 			this.$routerOnActivate = function(next) {
 				var id = '/'+next.params.id;
 				if (id) {
-					Post.find(id).then(post => { $ctrl.post = post });
+					Post.find(id).then(post => { 
+						$ctrl.post = post;
+						User.find(post.authorId).then(author => $ctrl.author = author)
+					});
 				} else {
 					$ctrl.post = { title: '', body: '', meta: '' }
 				}

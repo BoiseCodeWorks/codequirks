@@ -13,13 +13,14 @@ $clouds: #E6E6E6 !default;
 $darkclouds:   darken($clouds, 3%) !default;
 $midnightblue: #2c3e50 !default;
 
-$primary-color: #c0392b;
+$primary-color: #3596C5;
+$cw-green: #8CF130;
 
 /********************
  * DONT MODIFY BASE *
  ********************/
-$page-bg: lighten(grayscale($primary-color), 50%); 
-$compliment: complement($primary-color);
+$page-bg: lighten( $clouds, 50% ); 
+$compliment: $cw-green;
 $lighten10: lighten( $primary-color, 10% );
 $lighten20: lighten( $primary-color, 20% );
 $primary-dark: darken( $primary-color, 10% );

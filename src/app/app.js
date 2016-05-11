@@ -44,20 +44,13 @@ angular.module(MODULE_NAME, [
 		$routeConfig: [
 			{ path: '/...', name: 'TwoCol', component: 'twoCol', useAsDefault: true },
 			{ path: '/dashboard/...', name: 'Dashboard', component: 'dashboard' },
-    ],
-		controller: ['$scope', '$showdown', function($scope, $showdown) {
-			var $ctrl = this;
-			$ctrl.test = '##ello'
-			this.convert = function(){
-				$ctrl.out = $showdown.makeHtml($ctrl.test);
-			}
-		}]
+    ]
 	})
 	.component('twoCol', {
 		template: `
 		<div>
 				<header>
-					<a href="/"><img src="img/logo.png"></a>
+					<a ng-link=[\'TwoCol'\]><img src="img/logo.png"></a>
 				</header>
 				<div class="col-sm-7 col-sm-offset-1">
 					<posts></posts>

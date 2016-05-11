@@ -12,7 +12,7 @@ let navbar =  {
 				</div>
 				<div ng-class="{'collapse navbar-collapse': !$ctrl.collapse }">
 					<ul class="nav navbar-nav">
-						<li><a href="/">Home</a></li>
+						<li><a ng-link=[\'TwoCol'\]>Home</a></li>
 					</ul>
 					<ul class="nav navbar-nav" ng-if="$ctrl.member">
 						<li><a ng-link=[\'Dashboard'\]>Dashboard</a></li>

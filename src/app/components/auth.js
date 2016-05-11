@@ -37,10 +37,10 @@ let firebaseAuth = {
 			AuthService.login(ac.user, handleDBResponse);
 		};
 
-		ac.register = function() {
-			clearErr();
-			AuthService.register(ac.user, handleDBResponse);
-		};
+		// ac.register = function() {
+		// 	clearErr();
+		// 	AuthService.register(ac.user, handleDBResponse);
+		// };
 
 		ac.logout = function() {
 			clearErr();
@@ -73,11 +73,8 @@ let firebaseAuth = {
 			<div class="button-group">
 				<div class="alert alert-danger" ng-if="$ctrl.authErr">{{$ctrl.authErr}}</div>
 				<div class="row">
-					<div class="col-sm-6">
-						<button class="col-sm-6 btn btn-primary btn-block" type="submit" ng-click="$ctrl.submitForm = $ctrl.login">Login <i class="fa fa-sign-in"></i></button>
-					</div>
-					<div class="col-sm-6">
-						<button class=" btn btn-success btn-block" type="submit" ng-click="$ctrl.submitForm = $ctrl.register">Register <i class="fa fa-user-plus"></i></button>
+					<div class="col-sm-12">
+						<button class="btn btn-primary btn-block" type="submit" ng-click="$ctrl.submitForm = $ctrl.login">Login <i class="fa fa-sign-in"></i></button>
 					</div>
 				</div>
 			</div>
@@ -113,24 +110,24 @@ let AuthService = function($rootScope, DSFirebaseAdapter, User) {
 		})
 		}
 
-	function createUser(authData, user) {
-		var userToAdd = {
-			id: authData.uid,
-			email: user.email,
-			created: Date.now()
-		}
-		User.create(userToAdd);
-	}
+	// function createUser(authData, user) {
+	// 	var userToAdd = {
+	// 		id: authData.uid,
+	// 		email: user.email,
+	// 		created: Date.now()
+	// 	}
+	// 	User.create(userToAdd);
+	// }
 	return {
-		register: function(user, cb) {
-			db.createUser(user, function(err, authData) {
-				if (err) {
-					return cb(err)
-				}
-				createUser(authData, user);
-				authMember(cb);
-			});
-		},
+		// register: function(user, cb) {
+		// 	db.createUser(user, function(err, authData) {
+		// 		if (err) {
+		// 			return cb(err)
+		// 		}
+		// 		createUser(authData, user);
+		// 		authMember(cb);
+		// 	});
+		// },
 		login: function(user, cb) {
 			db.authWithPassword(user, function(err, authData) {
 				if (err) {

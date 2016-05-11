@@ -15,12 +15,7 @@ let sidebar = {
 let aboutMe = {
 	template: `
 <div class="sidebar-widget">
-	<div class="btn-group pull-right m10" ng-if="$ctrl.member">
-		<button ng-click="$ctrl.edit = !$ctrl.edit" ng-if="!$ctrl.edit" class="btn btn-warning"><i class="fa fa-edit"></i></button>
-		<button ng-click="$ctrl.updateInfo()" ng-if="$ctrl.edit" class="btn btn-success"><i class="fa fa-save"></i></button>
-		<button ng-click="$ctrl.edit = !$ctrl.edit" ng-if="$ctrl.edit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-	</div>
-	<h3 class="sidebar-title">About Me</h3>
+	<h3 class="sidebar-title">About CodeWorks</h3>
 	<div class="widget-container widget-about">
 		<form class="form text-left" ng-if="$ctrl.edit && $ctrl.member">
 			<div class="form-group">
@@ -51,6 +46,11 @@ let aboutMe = {
 			<div class="text-left">
 				<p>{{$ctrl.author.bio}}</p>
 			</div>
+		</div>
+		<div class="btn-group m10" ng-if="$ctrl.member">
+			<button ng-click="$ctrl.edit = !$ctrl.edit" ng-if="!$ctrl.edit" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+			<button ng-click="$ctrl.updateInfo()" ng-if="$ctrl.edit" class="btn btn-success"><i class="fa fa-save"></i></button>
+			<button ng-click="$ctrl.edit = !$ctrl.edit" ng-if="$ctrl.edit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
 		</div>
 	</div>
 </div>
@@ -109,7 +109,7 @@ let featuredPosts = {
 		let $ctrl = this;
 		this.$onInit = function() {
 			if(USER_ID){
-				Post.findAll({authorId: USER_ID }).then(posts => { $ctrl.posts = posts.filter(p => p.featured) })
+				Post.findAll().then(posts => { $ctrl.posts = posts.filter(p => p.featured) })
 			}
 		};
 	}]

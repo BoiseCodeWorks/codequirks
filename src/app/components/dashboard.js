@@ -16,19 +16,18 @@ let postsManager = {
 		var $ctrl = this;
 
 		this.$onInit = function() {
-			
-			$ctrl.member = $rootScope.member;
-			if($ctrl.member){
-				Post.findAll({authorId: $rootScope.member.id }).then(posts => { $ctrl.posts = posts })
-			}
+				Post.findAll().then(posts => { $ctrl.posts = posts })
     };
 
 		$rootScope.$on('update', function() {
 			$ctrl.member = $rootScope.member;
-			Post.findAll({authorId: $rootScope.member.id }).then(posts => { $ctrl.posts = posts })			
+			Post.findAll().then(posts => { $ctrl.posts = posts })			
 		})
 
-		$ctrl.toggleFeature = (post, feature)=>{ post[feature] = !post[feature]; post.DSSave()}
+		$ctrl.toggleFeature = (post, feature)=>{ 
+			post[feature] = !post[feature]; 
+			post.DSSave()
+		}
 
 		this.removePost = (post) => {
 			var choice = confirm('Are you sure you want to remove this post permanently?');
@@ -40,7 +39,7 @@ let postsManager = {
 	template: `
 <div class="col-sm-12  panel panel-default">
 	<div>
-		<h2><a href="/" class="pull-right"><img src="img/logo.png" width="120"></a> Posts Manager</h2>
+		<h2><span class="pull-right"><img src="img/logo.png" width="120"></span> Posts Manager</h2>
 		<div class="row">
 
 			<div class="col-sm-6 mtb10">
@@ -54,28 +53,34 @@ let postsManager = {
 	</div>
 
 	<div class="panel-body">
-		<div class="col-sm-4" ng-repeat="post in $ctrl.posts | filter: $ctrl.searchPosts track by post.id">
-			<div class="card-outmore">
-				<div class="dashboard-post-actions">
-					<a ng-click="$ctrl.toggleFeature(post, 'featured')" class="btn btn-primary text-white btn-sm"><i class="fa" ng-class="{'fa-star-o': !post.featured, 'fa-star text-yellow': post.featured }"></i></a>
-					<a ng-click="$ctrl.toggleFeature(post, 'hide')" class="btn btn-primary text-white btn-sm"><i class="fa" ng-class="{'fa-cloud-download': !post.hide, 'fa-cloud-upload': post.hide }"></i></a>
-					<a ng-click="$ctrl.removePost(post)" class="btn btn-danger text-white btn-sm"><i class="fa fa-trash"></i></a>
+		<div class="list-group">
+			<div class="list-group-item" ng-repeat="post in $ctrl.posts | filter: $ctrl.searchPosts | orderBy: 'created':true track by post.id">
+				<div class="media">
+					<div class="pull-left">
+						<img class="media-object" ng-src="{{post.imgUrl}}" alt="{{post.title}}" width="200">
+					</div>
+					<div class="media-body">
+						<div class="media-heading">
+							<div class="pull-right">
+								<span class="date">
+									<i class="fa fa-clock-o"></i>{{post.created | date}}
+								</span> /
+								<span>
+									<i class="fa fa-comment-o"></i> {{post.comments.length || 0}}
+								</span>
+							</div>
+							<h3><a ng-link="[\'EditPost'\, {id: post.id.substr(1)}]">{{post.title}}</a></h3>
+							<p>{{post.author.name}}</p>
+							<div class="dashboard-post-actions pull-right">
+								<a ng-click="$ctrl.toggleFeature(post, 'featured')" class="btn btn-primary text-white btn-sm"><i class="fa" ng-class="{'fa-star-o': !post.featured, 'fa-star text-yellow': post.featured }"></i></a>
+								<a ng-click="$ctrl.toggleFeature(post, 'hide')" class="btn btn-primary text-white btn-sm"><i class="fa" ng-class="{'fa-cloud-download': !post.hide, 'fa-cloud-upload': post.hide }"></i></a>
+								<a ng-click="$ctrl.removePost(post)" class="btn btn-danger text-white btn-sm"><i class="fa fa-trash"></i></a>
+							</div>
+						</div>
+						<p markdown-to-html="post.body.split(' ').slice(0, 15).join(' ')">...</p>
+					</div>
 				</div>
 			</div>
-			<article class="blog-post thecard" ng-class="{'inactive': post.hide, 'featured': post.featured}">
-				<div class="blog-post-image card-img">
-					<a ng-link="[\'EditPost'\, {id: post.id.substr(1)}]"><img class="img-responsive" ng-src="{{post.imgUrl}}" alt="{{post.title}}"></a>
-				</div>
-				<div class="blog-post-body card-caption">
-					<h4><a ng-link="[\'EditPost'\, {id: post.id.substr(1)}]">{{post.title}}</a></h4>
-					<div class="post-meta">
-						<span>
-							by <a href="#">{{post.author.name}}</a></span>/
-						<span class="date"><i class="fa fa-clock-o"></i>{{post.created | date}}</span>/<span><i class="fa fa-comment-o"></i> {{post.comments.length || 0}}</span>
-					</div>
-					<p markdown-to-html="post.body.split(' ').slice(0, 15).join(' ')">...</p>
-				</div>
-			</article>
 		</div>
 	</div>
 </div>
@@ -159,7 +164,8 @@ let editPost = {
 			if(!$ctrl.post.id){
 				$ctrl.post.authorId = $rootScope.member.id; 
 				$ctrl.post.author = {
-					name: $rootScope.member.name
+					name: $rootScope.member.name,
+					imgUrl: $rootScope.member.imgUrl
 				}
 				$ctrl.post.created = Date.now();
 				$ctrl.post.hide = true;
